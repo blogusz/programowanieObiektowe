@@ -55,34 +55,15 @@ public class World
 
         Scanner scanner=new Scanner(System.in);
 
-        while(true) //tworzymy listę kolejnych kierunków ruchu dla zwierzaka
-        {
-            System.out.println("Podaj następny kierunek ruchu zwierzaka [f/b/l/r]. 'X' kończy dodawanie kierunków. ");
-            String choice=scanner.nextLine();
-
-            if(choice.equals("X")) break;
-            if(choice.equals(Direction.valueOf("f").toString()) || choice.equals(Direction.valueOf("b").toString()) || choice.equals(Direction.valueOf("r").toString()) || choice.equals(Direction.valueOf("l").toString()) )
-            {
-                directions.add(choice);
-            }
-        }
-
-        for (String dir : directions)   //przypisujemy wartościom String wartości typu wyliczeniowego
-        {
-            switch (dir)
-            {
-                case "f" -> direction = Direction.f;
-                case "b" -> direction = Direction.b;
-                case "l" -> direction = Direction.l;
-                case "r" -> direction = Direction.r;
-                default -> direction=null;
-
-            }
-            if(direction != null) run(direction); //wywołujemy funkcję run()
-
-        }
-
         System.out.println("\n\nSystem zakończył działanie");
+
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
+
+        System.out.println(position1.opossite().toString());
 
     }
 }
