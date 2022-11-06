@@ -10,7 +10,7 @@ class AnimalTest {
     OptionsParser optionsParser=new OptionsParser();
 
     @Test
-    void inputTest() //testujemy, czy dane wejściowe podane jako tablica łańcuchów znaków są poprawnie interpretowane.
+    void inputTest() //testujemy, czy dane wejściowe podane jako tablica łańcuchów znaków są poprawnie interpretowane..
     {
         String[] directions=new String[]{"x","y","z", "ala ma kota","0"};
 
