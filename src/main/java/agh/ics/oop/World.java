@@ -6,33 +6,6 @@ import java.util.Scanner;
 
 public class World
 {
-//    static void run(Direction[] kierunki)
-//    {
-//        System.out.println("\nZwierzak idzie do przodu\n");//ZADANIE 8
-//
-//        for (int i = 0; i < kierunki.length-1; i++)        //ZADANIE 11
-//        {
-//            System.out.print(kierunki[i]+", ");
-//        }
-//        System.out.println(kierunki[kierunki.length-1]);
-//
-//        for (int i = 0; i <kierunki.length-1 ; i++)         //ZADANIE 14
-//        {
-//            switch(kierunki[i])
-//            {
-//                case f-> System.out.print("Zwierzak idzie do przodu, ");
-//                case b-> System.out.print("Zwierzak idzie do tyłu, ");
-//                case r-> System.out.print("Zwierzak skręca w prawo, ");
-//                case l-> System.out.print("Zwierzak skręca w lewo, ");
-//            }
-//        }
-//        switch(kierunki[kierunki.length-1])
-//        {
-//            case f-> System.out.print("Zwierzak idzie do przodu");
-//            case b-> System.out.print("Zwierzak idzie do tyłu");
-//            case r-> System.out.print("Zwierzak skręca w prawo");
-//            case l-> System.out.print("Zwierzak skręca w lewo");
-//        }
     static void run(Direction dir)
 {
         String direction=switch(dir)
@@ -47,23 +20,34 @@ public class World
 
     public static void main(String[] args)
     {
-        System.out.println("System wystartował");
+        Animal animal =new Animal(); //zwierzak na polu (2,2), NORTH
+        System.out.println(animal.toString());
 
-        Direction direction;
+        Vector2d position=new Vector2d(2,3);
+        System.out.println(animal.isAt(position)); //porównujemy pozycję (2,3) z polem naszego zwierzaka
 
-        List<String> directions=new ArrayList<>();
-
+        OptionsParser optionsParser=new OptionsParser();
         Scanner scanner=new Scanner(System.in);
+        List<String> options=new ArrayList<>();
 
-        System.out.println("\n\nSystem zakończył działanie");
+        System.out.println("Wprowadź kolejne kierunki zwierzaka [forward/f/backward/b/right/r/left]: ");
+        while (true)
+        {
+            String choice = scanner.nextLine();;
+            if(choice.equals("X")) //X kończy dodawanie
+                break;
+            else
+                options.add(choice);
+        }
 
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(-2,1);
-        System.out.println(position2);
-        System.out.println(position1.add(position2));
+        String[] optionsArray=new String[options.size()];
+        optionsArray=options.toArray(optionsArray);
+        //System.out.println(optionsParser.parse(optionsArray));
 
-        System.out.println(position1.opossite().toString());
-
+        for(MoveDirection dir: optionsParser.parse(optionsArray))
+        {
+            animal.move(dir);
+            System.out.println(animal.toString());
+        }
     }
 }
