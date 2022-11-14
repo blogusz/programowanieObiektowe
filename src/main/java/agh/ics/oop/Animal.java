@@ -1,130 +1,100 @@
 package agh.ics.oop;
 
-public class Animal
-{
+import java.util.Objects;
+
+public class Animal {
     private MapDirection direction;
     private Vector2d position;
+    private IWorldMap map;
+
+    /**"zastanów się nad dotychczasowym konstruktorem bezparametrowym, czy nadal ma on sens? W jaki sposób uprościć wszystkie konstruktory?"*/
+    // Można by po prostu stworzyć jeden główny konstruktor, w którym ustalana będzie mapa, pozycja startowa i orientacja startowa zwierzaka
     public Animal()
     {
-        this.direction=MapDirection.NORTH;
-        this.position=new Vector2d(2,2);
+        this.direction = MapDirection.NORTH;
+        this.position = new Vector2d(2, 2);
     }
 
+    public Animal(IWorldMap map)
+    {
+        this.direction = MapDirection.NORTH;
+        this.position = new Vector2d(2, 2);
+        this.map = map;
+    }
 
+    public Animal(IWorldMap map, Vector2d initialPosition)
+    {
+        this.direction = MapDirection.NORTH;
+        this.position = initialPosition;
+        this.map = map;
+    }
     @Override
     public String toString()
     {
-        return "("+position.x+", "+position.y+")"+", "+direction;
+        switch (this.direction)
+        {
+            case NORTH ->
+            {
+                return "N";
+            }
+            case SOUTH ->
+            {
+                return "S";
+            }
+            case EAST ->
+            {
+                return "E";
+            }
+            case WEST ->
+            {
+                return "W";
+            }
+            default ->
+            {
+                return null;
+            }
+        }
+        //return null;
     }
 
-    public boolean isAt(Vector2d position)
-    {
-        if(position.x == this.position.x && position.y == this.position.y)
+    public boolean isAt(Vector2d position) {
+        if (position.x == this.position.x && position.y == this.position.y)
         {
             return true;
         }
-        else return false;
+        else
+            return false;
     }
 
-    public void move(MoveDirection direction)
+    public void move(MoveDirection direction, IWorldMap map)
     {
-        while (true)
+        switch (direction)
         {
-            if(direction==MoveDirection.RIGHT)
+            case FORWARD ->
             {
-                if(this.direction==MapDirection.NORTH)
+                if (this.map.canMoveTo(this.position.add(Objects.requireNonNull(this.direction.toUnitVector()))))
                 {
-                    this.direction=MapDirection.EAST;
-                    break;
+                    this.position = this.position.add(Objects.requireNonNull(this.direction.toUnitVector()));
                 }
-                if(this.direction==MapDirection.SOUTH)
-                {
-                    this.direction=MapDirection.WEST;
-                    break;
-                }
-                if(this.direction==MapDirection.WEST)
-                {
-                    this.direction=MapDirection.NORTH;
-                    break;
-                }
-                if(this.direction==MapDirection.EAST)
-                {
-                    this.direction=MapDirection.SOUTH;
-                    break;
-                }
-            }
-            if(direction==MoveDirection.LEFT)
-            {
-                if(this.direction==MapDirection.NORTH)
-                {
-                    this.direction=MapDirection.WEST;
-                    break;
-                }
-                if(this.direction==MapDirection.SOUTH)
-                {
-                    this.direction=MapDirection.EAST;
-                    break;
-                }
-                if(this.direction==MapDirection.WEST)
-                {
-                    this.direction=MapDirection.SOUTH;
-                    break;
-                }
-                if(this.direction==MapDirection.EAST)
-                {
-                    this.direction=MapDirection.NORTH;
-                    break;
-                }
-            }
-            if(direction==MoveDirection.FORWARD)
-            {
-                if(this.position.y<4 && this.direction==MapDirection.NORTH)
-                {
-                    this.position=this.position.add(new Vector2d(0,1));
-                    break;
-                }
-                if(this.position.y>0 && this.direction==MapDirection.SOUTH)
-                {
-                    this.position=this.position.add(new Vector2d(0,-1));
-                    break;
-                }
-                if(this.position.x>0 && this.direction==MapDirection.WEST)
-                {
-                    this.position=this.position.add(new Vector2d(-1,0));
-                    break;
-                }
-                if(this.position.x<4 && this.direction==MapDirection.EAST)
-                {
-                    this.position=this.position.add(new Vector2d(1,0));
-                    break;
-                }
-                break;
-            }
-            if(direction==MoveDirection.BACKWARD)
-            {
-                if(this.position.y>0 && this.direction==MapDirection.NORTH)
-                {
-                    this.position=this.position.add(new Vector2d(0,-1));
-                    break;
-                }
-                if(this.position.y<4 && this.direction==MapDirection.SOUTH)
-                {
-                    this.position=this.position.add(new Vector2d(0,1));
-                    break;
-                }
-                if(this.position.x<4 && this.direction==MapDirection.WEST)
-                {
-                    this.position=this.position.add(new Vector2d(1,0));
-                    break;
-                }
-                if(this.position.x>0 && this.direction==MapDirection.EAST)
-                {
-                    this.position=this.position.add(new Vector2d(-1,0));
-                    break;
-                }
-                break;
             }
 
+            case BACKWARD ->
+            {
+                if (this.map.canMoveTo(this.position.subtract(Objects.requireNonNull(this.direction.toUnitVector()))))
+                {
+                    this.position = this.position.subtract(Objects.requireNonNull(this.direction.toUnitVector()));
+                }
+            }
+
+            case RIGHT -> this.direction = this.direction.next();
+
+            case LEFT -> this.direction = this.direction.previous();
+
         }
+    }
+
+    public Vector2d getPosition() //funkcja pomocnicza pomagająca odczytywać bierzącą pozycje danego zwierzaka
+    {
+        return this.position;
     }
 }
