@@ -22,7 +22,6 @@ public class World
         rectangularMap.toString(map);
 
 
-
 //        OptionsParser optionsParser=new OptionsParser();
 //        Scanner scanner=new Scanner(System.in);
 //        List<String> options=new ArrayList<>();
