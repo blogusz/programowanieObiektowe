@@ -11,7 +11,7 @@ public class World
         */
 
         /*kod z zadania 6*/
-        List<MoveDirection> directions = new OptionsParser().parse(args);
+        List<MoveDirection> directions=new OptionsParser().parse(args);
         IWorldMap map = new RectangularMap(10, 5);
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
         IEngine engine = new SimulationEngine(directions, map, positions);
@@ -20,6 +20,7 @@ public class World
         /*W celu wywołania metody toString rzutujemy mapę na typ RectangularMap*/
         RectangularMap rectangularMap = (RectangularMap) map;
         rectangularMap.toString(map);
+
 
 
 
