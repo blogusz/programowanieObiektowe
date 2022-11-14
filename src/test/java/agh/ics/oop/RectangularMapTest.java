@@ -1,35 +1,71 @@
 package agh.ics.oop;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- *
- * Testy nie działają, bo ich nie zrobiłem :(
- *
- */
-
-class RectangularMapTest
+public class RectangularMapTest
 {
-
     @Test
-    void canMoveTo() {
+    void canMoveToTest()
+    {
+        IWorldMap map = new RectangularMap(3, 7);
+
+        Assertions.assertTrue(map.canMoveTo(new Vector2d(1,0)));
+        Assertions.assertTrue(map.canMoveTo(new Vector2d(3,7)));
+        Assertions.assertFalse(map.canMoveTo(new Vector2d(2, 8)));
     }
 
     @Test
-    void place() {
+    void isOccupiedTest()
+    {
+        IWorldMap map = new RectangularMap(3, 7);
+        Vector2d position1 = new Vector2d(2,3);
+        Vector2d position2 = new Vector2d(1,1);
+        Vector2d position3 = new Vector2d(0,2);
+        Animal animal1 = new Animal(map, position1);
+        Animal animal2 = new Animal(map, position2);
+        Animal animal3 = new Animal(map, position3);
+        map.place(animal1);
+        map.place(animal2);
+        map.place(animal3);
+
+        Assertions.assertTrue(map.isOccupied(position1));
+        Assertions.assertTrue(map.isOccupied(position2));
+        Assertions.assertTrue(map.isOccupied(position3));
+        Assertions.assertFalse(map.isOccupied(new Vector2d(0,1)));
     }
 
     @Test
-    void isOccupied() {
+    void placeTest()
+    {
+        IWorldMap map = new RectangularMap(3, 7);
+        Vector2d position1 = new Vector2d(2,3);
+        Vector2d position2 = new Vector2d(2,3);
+        Vector2d position3 = new Vector2d(4,8);
+        Animal animal1 = new Animal(map, position1);
+        Animal animal2 = new Animal(map, position1);
+        Animal animal3 = new Animal(map, position3);
+
+        Assertions.assertTrue(map.place(animal1));
+        Assertions.assertFalse(map.place(animal2));
+        Assertions.assertFalse(map.place(animal3));
     }
 
     @Test
-    void objectAt() {
+    void objectAtTest()
+    {
+        IWorldMap map = new RectangularMap(3, 7);
+        Vector2d position1 = new Vector2d(2,3);
+        Vector2d position2 = new Vector2d(0,5);
+        Animal animal1 = new Animal(map, position1);
+        Animal animal2 = new Animal(map, position2);
+        map.place(animal1);
+        map.place(animal2);
+
+        Assertions.assertEquals(animal1, map.objectAt(position1));
+        Assertions.assertEquals(animal2, map.objectAt(position2));
+        Assertions.assertNotEquals(animal1, map.objectAt(position2));
+        Assertions.assertNotEquals(animal2, map.objectAt(position1));
     }
 
-    @Test
-    void testToString() {
-    }
 }

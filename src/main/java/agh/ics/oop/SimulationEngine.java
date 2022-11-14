@@ -5,12 +5,13 @@ import java.util.List;
 
 public class SimulationEngine implements  IEngine
 {
-    public  List<MoveDirection> listOfDirections;
+    public  MoveDirection[] listOfDirections;
     public IWorldMap map;
     public Vector2d[] initialPositions;
     private final List<Animal> listOfAnimals = new ArrayList<>();
 
-    public SimulationEngine(List<MoveDirection> directions, IWorldMap map, Vector2d[] initialPositions)
+    //public SimulationEngine(List<MoveDirection> directions, IWorldMap map, Vector2d[] initialPositions)
+    public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] initialPositions)
     {
         this.listOfDirections = directions;
         this.map = map;
@@ -46,7 +47,8 @@ public class SimulationEngine implements  IEngine
             }
         }
 
-        for(Animal animal: this.listOfAnimals) {
+        for(Animal animal: this.listOfAnimals)
+        {
             System.out.println(animal.toString());
         }
     }

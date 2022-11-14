@@ -55,7 +55,7 @@ public class Vector2dTest
     @Test
     public void Testopossite()
     {
-        assertEquals(new Vector2d(-5,-2),new Vector2d(5,2).opossite());
+        assertEquals(new Vector2d(-5,-2),new Vector2d(5,2).opposite());
     }
 
     @Test

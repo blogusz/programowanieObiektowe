@@ -3,28 +3,17 @@ package agh.ics.oop;
 import java.util.Objects;
 
 public class Animal {
-    private MapDirection direction;
-    private Vector2d position;
-    private IWorldMap map;
-
-    /**"zastanów się nad dotychczasowym konstruktorem bezparametrowym, czy nadal ma on sens? W jaki sposób uprościć wszystkie konstruktory?"*/
-    // Można by po prostu stworzyć jeden główny konstruktor, w którym ustalana będzie mapa, pozycja startowa i orientacja startowa zwierzaka
-    public Animal()
-    {
-        this.direction = MapDirection.NORTH;
-        this.position = new Vector2d(2, 2);
-    }
+    private MapDirection direction = MapDirection.NORTH;
+    private Vector2d position= new Vector2d(2, 2);
+    private final IWorldMap map;
 
     public Animal(IWorldMap map)
     {
-        this.direction = MapDirection.NORTH;
-        this.position = new Vector2d(2, 2);
         this.map = map;
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition)
     {
-        this.direction = MapDirection.NORTH;
         this.position = initialPosition;
         this.map = map;
     }
@@ -54,35 +43,36 @@ public class Animal {
                 return null;
             }
         }
-        //return null;
     }
 
     public boolean isAt(Vector2d position) {
-        if (position.x == this.position.x && position.y == this.position.y)
-        {
-            return true;
-        }
-        else
-            return false;
+        return this.position.equals(position);
     }
 
     public void move(MoveDirection direction, IWorldMap map)
     {
+        if (direction == null)
+            return;
+
         switch (direction)
         {
             case FORWARD ->
             {
-                if (this.map.canMoveTo(this.position.add(Objects.requireNonNull(this.direction.toUnitVector()))))
+                Vector2d nextPosition = this.position.add(Objects.requireNonNull(this.direction.toUnitVector()));
+                if (this.map.canMoveTo(nextPosition))
                 {
-                    this.position = this.position.add(Objects.requireNonNull(this.direction.toUnitVector()));
+                    if(!this.map.isOccupied(nextPosition) || !(this.map.objectAt(nextPosition) instanceof Animal))
+                        this.position=nextPosition;
                 }
             }
 
             case BACKWARD ->
             {
-                if (this.map.canMoveTo(this.position.subtract(Objects.requireNonNull(this.direction.toUnitVector()))))
+                Vector2d nextPosition = this.position.subtract(Objects.requireNonNull(this.direction.toUnitVector()));
+                if (this.map.canMoveTo(nextPosition))
                 {
-                    this.position = this.position.subtract(Objects.requireNonNull(this.direction.toUnitVector()));
+                    if(!this.map.isOccupied(nextPosition) || !(this.map.objectAt(nextPosition) instanceof Animal))
+                        this.position=nextPosition;
                 }
             }
 
@@ -96,5 +86,9 @@ public class Animal {
     public Vector2d getPosition() //funkcja pomocnicza pomagająca odczytywać bierzącą pozycje danego zwierzaka
     {
         return this.position;
+    }
+
+    public MapDirection getDirection() {
+        return this.direction;
     }
 }
