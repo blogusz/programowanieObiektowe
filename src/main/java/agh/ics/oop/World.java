@@ -4,7 +4,7 @@ public class World
 {
     public static void main(String[] args)
     {
-        // Program arguments f b r l f f r r f f f f f f f f jako
+        // Program arguments f b r l f f r r f f f f f f f f
 
         MoveDirection[] directions = new OptionsParser().parse(args);
         IWorldMap map = new GrassField(10);
