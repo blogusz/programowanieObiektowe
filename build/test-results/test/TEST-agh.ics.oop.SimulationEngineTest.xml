@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="agh.ics.oop.SimulationEngineTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-11-21T18:42:29" hostname="DESKTOP-M9COKB4" time="0.003">
-  <properties/>
-  <testcase name="IntegrationTest()" classname="agh.ics.oop.SimulationEngineTest" time="0.003"/>
-  <system-out><![CDATA[S
-N
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="agh.ics.oop.Vector2dTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2022-11-21T18:42:29" hostname="DESKTOP-M9COKB4" time="0.012">
+<testsuite name="agh.ics.oop.Vector2dTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-11-28T14:00:01" hostname="DESKTOP-M9COKB4" time="0.016">
   <properties/>
-  <testcase name="Testsubtract()" classname="agh.ics.oop.Vector2dTest" time="0.001"/>
-  <testcase name="TestupperRight()" classname="agh.ics.oop.Vector2dTest" time="0.001"/>
-  <testcase name="Testfollows()" classname="agh.ics.oop.Vector2dTest" time="0.0"/>
-  <testcase name="TestlowerLeft()" classname="agh.ics.oop.Vector2dTest" time="0.0"/>
-  <testcase name="TesttoString()" classname="agh.ics.oop.Vector2dTest" time="0.005"/>
-  <testcase name="Testprecedes()" classname="agh.ics.oop.Vector2dTest" time="0.001"/>
-  <testcase name="Testequals()" classname="agh.ics.oop.Vector2dTest" time="0.001"/>
-  <testcase name="Testadd()" classname="agh.ics.oop.Vector2dTest" time="0.0"/>
-  <testcase name="Testopossite()" classname="agh.ics.oop.Vector2dTest" time="0.001"/>
+  <testcase name="equalsTest()" classname="agh.ics.oop.Vector2dTest" time="0.016"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

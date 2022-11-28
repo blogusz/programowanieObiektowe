@@ -1,12 +1,13 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class GrassField extends AbstractWorldMap
 {
         int grassAmount;
-        ArrayList<Grass> grassAll = new ArrayList<>();
+        //ArrayList<Grass> grassAll = new ArrayList<>();
+        HashMap<Vector2d, Grass> grassAll=new HashMap<>();
         Vector2d lowerLeftGrass;
         Vector2d upperRightGrass;
 
@@ -39,7 +40,7 @@ public class GrassField extends AbstractWorldMap
                 } while (isOccupied(newGrassPosition)); // tworzymy nowę kępki trawy tak długo, aż którąś będzie się dało umieścić na mapie
 
                 Grass grass=new Grass(newGrassPosition);
-                this.grassAll.add(grass);
+                this.grassAll.put(newGrassPosition, grass);
             }
         }
 
@@ -48,13 +49,10 @@ public class GrassField extends AbstractWorldMap
         {
             if (super.isOccupied(position))
                 return true;
-
-            for (Grass grass: this.grassAll)
-            {
-                if (position.equals(grass.position))
-                    return true;
-            }
-            return false;
+            if (grassAll.get(position)!=null)
+                return true;
+            else
+                return false;
         }
 
         @Override
@@ -62,35 +60,45 @@ public class GrassField extends AbstractWorldMap
         {
             if(super.objectAt(position) != null)
                 return super.objectAt(position);
-
-            for (Grass grass: this.grassAll)
-            {
-                if (position.equals(grass.position)) // nie było zwierzaka, więc szukamy kępki trawy
-                {
-                    return grass;
-                }
-            }
-            return null; // nie ma ani zwierzaka ani trawy
+            if(grassAll.get(position)!=null)
+                return grassAll.get(position);
+            else
+                return null;
         }
         @Override
         public void drawBounds() // kod modyfikujący wartosci lewego dolnego i prawego gornego rogu rysowanego obszaru mapy
         {
             if (!animals.isEmpty())
-                drawLowerLeft = drawUpperRight = animals.get(0).getPosition(); // granice jako pozycja 1. zwierzaka (nasz punkt zaczepienia)
-            else if (!this.grassAll.isEmpty())
-                drawLowerLeft = drawUpperRight = this.grassAll.get(0).getPosition(); // granice jako pozycja 1. kępki (nasz punkt zaczepienia)
+            {
+                for (Animal animal : animals.values()) // potrzebne jest jakieś zwierzę do ustalenia początkowych bounds
+                {
+                    drawLowerLeft = drawUpperRight = animal.getPosition();
+                    break;
+                }
+            }
+
+            else if (!grassAll.isEmpty())
+            {
+                for (Grass grass : grassAll.values()) // lub trawa
+                {
+                    drawLowerLeft = drawUpperRight = grass.getPosition();
+                    break;
+                }
+            }
+
             else
             {
                 drawLowerLeft = new Vector2d(0,0); // granice jako (0,0) bo nie ma nic na mapie
                 drawUpperRight = new Vector2d(0,0);
                 return;
             }
-            for (Animal animal: animals) // teraz po kolei przyrownujemy lower i upper z pozycjami zwierzakow i ewentualnie je modyfikujemy (rozszerzamy mape)
+
+            for (Animal animal : animals.values())
             {
                 drawLowerLeft = drawLowerLeft.lowerLeft(animal.getPosition());
                 drawUpperRight = drawUpperRight.upperRight(animal.getPosition());
             }
-            for (Grass grass: this.grassAll) // teraz po kolei przyrownujemy lower i upper z pozycjami kępek trawy i ewentualnie je modyfikujemy (rozszerzamy mape)
+            for (Grass grass : grassAll.values())
             {
                 drawLowerLeft = drawLowerLeft.lowerLeft(grass.getPosition());
                 drawUpperRight = drawUpperRight.upperRight(grass.getPosition());

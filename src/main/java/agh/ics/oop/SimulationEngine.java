@@ -29,27 +29,22 @@ public class SimulationEngine implements  IEngine
 @Override
     public void run()
     {
-        int i = 0;
+        int counter = 0;
 
         for (MoveDirection direction : this.listOfDirections)
         {
-            if(i < this.listOfAnimals.size())
+            if(counter < this.listOfAnimals.size())
             {
-                Animal animal = this.listOfAnimals.get(i);
+                Animal animal = this.listOfAnimals.get(counter);
                 animal.move(direction, this.map);
             }
 
-            i++;
+            counter++;
 
-            if(i == this.listOfAnimals.size())
+            if(counter == this.listOfAnimals.size())
             {
-                i = 0;
+                counter = 0;
             }
-        }
-
-        for(Animal animal: this.listOfAnimals)
-        {
-            System.out.println(animal.toString());
         }
     }
 

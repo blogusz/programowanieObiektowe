@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class SimulationEngineTest
 {
     @Test
-    void IntegrationTest()
+    void Test()
     {
         String[] args = new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f"};
         MoveDirection[] directions = new OptionsParser().parse(args);

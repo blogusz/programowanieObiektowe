@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class AnimalTest
 {
     @Test
-    void IntegrationTest()
+    void Test()
     {
         IWorldMap map = new RectangularMap(5,5);
         Animal animal1 = new Animal(map);
