@@ -43,12 +43,14 @@ public class RectangularMapTest
         Vector2d position2 = new Vector2d(2,3);
         Vector2d position3 = new Vector2d(4,8);
         Animal animal1 = new Animal(map, position1);
-        Animal animal2 = new Animal(map, position1);
+        Animal animal2 = new Animal(map, position2);
         Animal animal3 = new Animal(map, position3);
 
         Assertions.assertTrue(map.place(animal1));
-        Assertions.assertFalse(map.place(animal2));
-        Assertions.assertFalse(map.place(animal3));
+        Exception exception_position1 = Assertions.assertThrows(IllegalArgumentException.class, ()-> map.place(animal2));
+        Assertions.assertEquals("There is another animal at (2,3)", exception_position1.getMessage());
+        Exception exception_position2 = Assertions.assertThrows(IllegalArgumentException.class, ()-> map.place(animal3));
+        Assertions.assertEquals("Animal can't move to (4,8)", exception_position2.getMessage());
     }
 
     @Test

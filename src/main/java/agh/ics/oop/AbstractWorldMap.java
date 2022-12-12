@@ -8,8 +8,8 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     protected Vector2d upperRight;
     protected Vector2d drawLowerLeft; // lewy dolny róg rysowanej mapy
     protected Vector2d drawUpperRight; // prawy górny róg rysowanej mapy
-    //ArrayList<Animal> animals = new ArrayList<>();
     protected HashMap<Vector2d, Animal> animals=new HashMap<>();
+    MapBoundary mapBoundary = new MapBoundary();
 
     @Override
     public boolean canMoveTo(Vector2d position)
@@ -34,18 +34,21 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     public boolean place(Animal animal)
     {
         if (!canMoveTo(animal.getPosition()))
-            return false;
-        if (isOccupied(animal.getPosition()) && (objectAt(animal.getPosition()) instanceof Animal)) // sprawdzamy, czy zajmowane pole nalezy do innego zwierzaka, czy może do kępki trawy
-            return false;
+        {
+            throw new IllegalArgumentException("Animal can't move to " + animal.getPosition().toString());
+        }
+        else if (isOccupied(animal.getPosition()) && (objectAt(animal.getPosition()) instanceof Animal))
+        {
+            throw new IllegalArgumentException("There is another animal at " + animal.getPosition().toString());
+        }
         else
         {
             this.animals.put(animal.getPosition(), animal);
+            this.mapBoundary.add(animal.getPosition());
             animal.addObserver(this);
 
             return true;
         }
-
-
     }
 
     @Override
@@ -61,6 +64,19 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition)
     {
-        animals.put(newPosition, animals.remove(oldPosition));
+        animals.put(newPosition, animals.get(oldPosition));
+        animals.remove(oldPosition);
+
+        if (objectAt(oldPosition) instanceof Grass)
+        {
+            mapBoundary.add(newPosition);
+        }
+
+        else
+        {
+            mapBoundary.positionChanged(oldPosition, newPosition);
+        }
+
+        drawBounds();
     }
 }
