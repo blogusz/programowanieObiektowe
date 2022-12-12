@@ -47,7 +47,7 @@ public class GrassFieldTest
         Animal animal2 = new Animal(map, position1);
 
         Assertions.assertTrue(map.place(animal1));
-        Assertions.assertFalse(map.place(animal2));
+        Assertions.assertEquals("There is another animal at (3,7)", Assertions.assertThrows(IllegalArgumentException.class, ()-> map.place(animal2)).getMessage());
     }
 
     @Test
